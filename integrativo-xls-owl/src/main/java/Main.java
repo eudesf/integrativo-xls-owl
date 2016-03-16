@@ -4,7 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.poi.ss.usermodel.Row;
@@ -14,21 +16,23 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class Main {
 
-	private static Map<String, Integer> columnNameMap = new HashMap<>();
+	private static Map<String, Integer> columnMap = new HashMap<>();
+	private static Map<String, String> predefinedColumnMap = new HashMap<>();
 	
 	static {
-		columnNameMap.put("Protein", 2);
-		columnNameMap.put("Gene", 3);
-		columnNameMap.put("Organism", 4);
-		columnNameMap.put("Org", 4);
-		columnNameMap.put("BioProcess", 5);
-		columnNameMap.put("BiologicalProcess", 5);
-		columnNameMap.put("MolecularFunction", 6);
-		columnNameMap.put("MolFunc", 6);
-		columnNameMap.put("CellComponent", 7);
-		columnNameMap.put("Comp", 7);
-		columnNameMap.put("Situation", 8);
-		columnNameMap.put("Phenotype", 11);
+		columnMap.put("Protein", 2);
+		columnMap.put("Gene", 3);
+		columnMap.put("Organism", 4);
+		columnMap.put("Org", 4);
+		columnMap.put("BioProcess", 5);
+		columnMap.put("BiologicalProcess", 5);
+		columnMap.put("MolecularFunction", 6);
+		columnMap.put("MolFunc", 6);
+		columnMap.put("CellComponent", 7);
+		columnMap.put("Comp", 7);
+		columnMap.put("Situation", 8);
+		columnMap.put("Phenotype", 11);
+		predefinedColumnMap.put("Molecule", "Homocysteine");
 	}
 	
 	public static void main(String[] args) throws IOException {
@@ -62,10 +66,12 @@ public class Main {
 		Sheet dataSheet = wb.getSheet("final-data");
 		for (int dataRowIndex = 1; dataRowIndex < 48; dataRowIndex++) {
 			Row dataRow = dataSheet.getRow(dataRowIndex);
-			for (int elementRowIndex = 27; elementRowIndex < 52; elementRowIndex++) {
-				Row elementRow = elementsSheet.getRow(elementRowIndex);
-				out.append(expandData(columnsJoinText(elementRow), dataRow));
-			}
+			String[] dataRowArray = convertToDataRowArray(dataRow);
+			
+//			for (int elementRowIndex = 27; elementRowIndex < 52; elementRowIndex++) {
+//				Row elementRow = elementsSheet.getRow(elementRowIndex);
+//				out.append(expandData(columnsJoinText(elementRow), dataRow));
+//			}
 		}
 		
 		Row lastElementRow = elementsSheet.getRow(elementsSheet.getLastRowNum());
@@ -76,23 +82,49 @@ public class Main {
 		return out.toString();
 	}
 
+	private List<String[]> listDataRowArray(Row dataRow) {
+		String[][] dataRowArray = new String[12][];
+		for (int column = 0; column < 12; column++) {
+			String cellText = dataRow.getCell(column).getStringCellValue();
+			dataRowArray[column] = cellText.split(";");
+		}
+		List<String[]> list = new ArrayList<>();
+		appendDataRowArrayToList(dataRowArray, list);
+		return list;
+	}
+
+	private void appendDataRowArrayToList(String[][] dataRowArray, List<String[]> list) {
+		
+	}
+	
 	private String columnsJoinText(Row elementRow) {
 		StringBuilder out = new StringBuilder();
-		out.append("\n");
-		out.append(strComm(elementRow.getCell(0).getStringCellValue()));
-		out.append("\n");
+//		out.append("\n");
+//		out.append(strComm(elementRow.getCell(0).getStringCellValue()));
+//		out.append("\n");
 		out.append(elementRow.getCell(1).getStringCellValue());
 		out.append("\n");
 		return out.toString();
 	}
 	
+	private String formatColumnKey(String column) {
+		return "$" + column + "$";
+	}
+	
 	private String expandData(String elementText, Row dataRow) {
-		for (String columnName : columnNameMap.keySet()) {
-			String columnNameKey = "$" + columnName + "$";
-			if (elementText.contains(columnNameKey)) {
-				elementText = elementText.replace(columnNameKey, dataRow.getCell(columnNameMap.get(columnName)).getStringCellValue());
+		for (String column : columnMap.keySet()) {
+			String columnKey = formatColumnKey(column);
+			if (elementText.contains(columnKey)) {
+				elementText = elementText.replace(columnKey, dataRow.getCell(columnMap.get(column)).getStringCellValue());
 			}
 		}
+		for (String predefinedColumn : predefinedColumnMap.keySet()) {
+			String predefinedColumnKey = formatColumnKey(predefinedColumn);
+			if (elementText.contains(predefinedColumnKey)) {
+				elementText = elementText.replace(predefinedColumnKey, predefinedColumnMap.get(predefinedColumn));
+			}
+		}
+
 		return elementText;
 	}
 	
