@@ -53,7 +53,7 @@ public class Main {
 		
 		long initialTimeMillis = System.currentTimeMillis();
 		
-		BufferedWriter writer = new BufferedWriter(new FileWriter("output.owl"), 1024*1024*50);
+		BufferedWriter writer = new BufferedWriter(new FileWriter(OUTPUT_FILE), 1024*1024*50);
 		new Main().convert(file, writer);
 		writer.close();
 		
