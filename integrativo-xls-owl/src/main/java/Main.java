@@ -53,7 +53,7 @@ public class Main {
 		
 		long initialTimeMillis = System.currentTimeMillis();
 		
-		BufferedWriter writer = new BufferedWriter(new FileWriter(OUTPUT_FILE), 1024*1024*50);
+		BufferedWriter writer = new BufferedWriter(new FileWriter(OUTPUT_FILE), 1024*1024*100);
 		new Main().convert(file, writer);
 		writer.close();
 		
@@ -77,15 +77,15 @@ public class Main {
 			Row dataRow = dataSheet.getRow(dataRowIndex);
 			
 			List<String> dataRowList = rowToList(dataRow);
-			writer.append("\n    " + strComm("XLS line: " + dataRowList.toString()) + "\n");
-			writer.append("   " + strComm("=========") + "\n");
+//			writer.append("\n    " + strComm("XLS line: " + dataRowList.toString()) + "\n");
+//			writer.append("   " + strComm("=========") + "\n");
 			
 			System.out.println("\n*\nXLS line " + (dataRowIndex + 1) + ": " + dataRowList.toString() + "\nCalculating rows...");
 			Set<List<String>> derivedRows = getDerivedRows(dataRowList);
 			System.out.println("Writing rows...");
 			int rowNum = 1;
 			for (List<String> derivedRow : derivedRows) {
-				writer.append("    " + strComm("Derived line (" + rowNum + "/" + derivedRows.size() + "): " + derivedRow.toString()) + "\n");
+//				writer.append("    " + strComm("Derived line (" + rowNum + "/" + derivedRows.size() + "): " + derivedRow.toString()) + "\n");
 				for (int modelRowIndex = 27; modelRowIndex < 52; modelRowIndex++) {
 					List<String> modelRow = rowToList(modelsSheet.getRow(modelRowIndex));
 					writer.append(expandData(columnsJoinText(modelRow), derivedRow));
@@ -160,6 +160,9 @@ public class Main {
 	private String strComm(String text) {
 		if (text == null || text.trim().length() == 0) {
 			return "";
+		}
+		if (text.contains("--")) {
+			text = text.replace("--", "__");
 		}
 		return "<!--" + text + "-->";
 	}

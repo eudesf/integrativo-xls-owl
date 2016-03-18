@@ -3,3 +3,4 @@
 .recommenders
 catalog-v001.xml
 .~lock.*
+output.owl
