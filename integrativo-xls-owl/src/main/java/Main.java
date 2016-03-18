@@ -20,6 +20,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class Main {
 
+	private static String OUTPUT_FILE = "output.owl"; 
 	private static Map<String, Integer> columnMap = new HashMap<>();
 	private static Map<String, String> predefinedColumnMap = new HashMap<>();
 	
@@ -50,9 +51,14 @@ public class Main {
 			throw new FileNotFoundException(args[0]);
 		}
 		
+		long initialTimeMillis = System.currentTimeMillis();
+		
 		BufferedWriter writer = new BufferedWriter(new FileWriter("output.owl"), 1024*1024*50);
 		new Main().convert(file, writer);
 		writer.close();
+		
+		System.out.println("\n\n* Finished *\nSee output.owl\nTime elapsed: " + 
+				((System.currentTimeMillis() - initialTimeMillis) / 1000.0 ) + "s" );
 	}
 
 
@@ -74,20 +80,19 @@ public class Main {
 			writer.append("\n    " + strComm("XLS line: " + dataRowList.toString()) + "\n");
 			writer.append("   " + strComm("=========") + "\n");
 			
-			System.out.println("\n\n***** " + dataRowList.toString() + "\nCalculating rows...");
-			Set<List<String>> rowRows = getRowRows(dataRowList);
+			System.out.println("\n*\nXLS line " + (dataRowIndex + 1) + ": " + dataRowList.toString() + "\nCalculating rows...");
+			Set<List<String>> derivedRows = getDerivedRows(dataRowList);
 			System.out.println("Writing rows...");
 			int rowNum = 1;
-			for (List<String> rowRow : rowRows) {
-				writer.append("    " + strComm("Derived line (" + rowNum + "/" + rowRows.size() + "): " + rowRow.toString()) + "\n");
+			for (List<String> derivedRow : derivedRows) {
+				writer.append("    " + strComm("Derived line (" + rowNum + "/" + derivedRows.size() + "): " + derivedRow.toString()) + "\n");
 				for (int modelRowIndex = 27; modelRowIndex < 52; modelRowIndex++) {
 					List<String> modelRow = rowToList(modelsSheet.getRow(modelRowIndex));
-					writer.append(expandData(columnsJoinText(modelRow), rowRow));
+					writer.append(expandData(columnsJoinText(modelRow), derivedRow));
 				}
-				System.out.print("\r" + rowNum + "/" + rowRows.size());
+				System.out.print("\r" + rowNum + "/" + derivedRows.size());
 				rowNum++;
 			}
-			break;
 		}
 		
 		Row lastElementRow = modelsSheet.getRow(modelsSheet.getLastRowNum());
@@ -105,20 +110,20 @@ public class Main {
 		return rowList;
 	}
 
-	private Set<List<String>> getRowRows(List<String> row) {
-		Set<List<String>> rowRows = new HashSet<>();
+	private Set<List<String>> getDerivedRows(List<String> row) {
+		Set<List<String>> derivedRows = new HashSet<>();
 		for (int col = 0; col < row.size(); col++) {
 			String colText = row.get(col);
 			String[] elements = colText.split(";");
 			if (elements.length > 1) {
 				List<String> newRow = new ArrayList<>(row);
 				newRow.set(col, colText.substring(colText.indexOf(";") + 1));
-				rowRows.addAll(getRowRows(newRow));
+				derivedRows.addAll(getDerivedRows(newRow));
 				row.set(col, colText.substring(0, colText.indexOf(";")));
 			}
 		}
-		rowRows.add(row);
-		return rowRows;
+		derivedRows.add(row);
+		return derivedRows;
 	}
 
 	private String columnsJoinText(List<String> modelRow) {
