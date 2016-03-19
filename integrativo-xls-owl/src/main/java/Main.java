@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -21,10 +22,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class Main {
 
 	private static String OUTPUT_FILE = "output.owl"; 
+	private static final List<Integer> COMB_COLUMNS;
 	private static Map<String, Integer> columnMap = new HashMap<>();
 	private static Map<String, String> predefinedColumnMap = new HashMap<>();
 	
 	static {
+		COMB_COLUMNS = Arrays.asList(2, 3, 4, 5, 6, 7, 12);
 		columnMap.put("Protein", 2);
 		columnMap.put("Gene", 3);
 		columnMap.put("Organism", 4);
@@ -34,9 +37,7 @@ public class Main {
 		columnMap.put("MolecularFunction", 6);
 		columnMap.put("MolFunc", 6);
 		columnMap.put("CellComponent", 7);
-		columnMap.put("Comp", 7);
-		columnMap.put("Situation", 8);
-		columnMap.put("Phenotype", 11);
+		columnMap.put("Phenotype", 12);
 		predefinedColumnMap.put("Molecule", "Homocysteine");
 	}
 	
@@ -112,14 +113,14 @@ public class Main {
 
 	private Set<List<String>> getDerivedRows(List<String> row) {
 		Set<List<String>> derivedRows = new HashSet<>();
-		for (int col = 0; col < row.size(); col++) {
-			String colText = row.get(col);
+		for (Integer column : COMB_COLUMNS) {
+			String colText = row.get(column);
 			String[] elements = colText.split(";");
 			if (elements.length > 1) {
 				List<String> newRow = new ArrayList<>(row);
-				newRow.set(col, colText.substring(colText.indexOf(";") + 1));
+				newRow.set(column, colText.substring(colText.indexOf(";") + 1));
 				derivedRows.addAll(getDerivedRows(newRow));
-				row.set(col, colText.substring(0, colText.indexOf(";")));
+				row.set(column, colText.substring(0, colText.indexOf(";")));
 			}
 		}
 		derivedRows.add(row);
