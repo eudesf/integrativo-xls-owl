@@ -37,6 +37,7 @@ public class Main {
 		columnMap.put("MolecularFunction", 6);
 		columnMap.put("MolFunc", 6);
 		columnMap.put("CellComponent", 7);
+		columnMap.put("Comp", 7);
 		columnMap.put("Phenotype", 12);
 		predefinedColumnMap.put("Molecule", "Homocysteine");
 	}
