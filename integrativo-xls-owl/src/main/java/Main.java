@@ -75,7 +75,7 @@ public class Main {
 		}
 
 		Sheet dataSheet = wb.getSheet("final-data");
-		for (int dataRowIndex = 1; dataRowIndex < 48; dataRowIndex++) {
+		for (int dataRowIndex = 7; dataRowIndex < 52; dataRowIndex++) {
 			Row dataRow = dataSheet.getRow(dataRowIndex);
 			
 			List<String> dataRowList = rowToList(dataRow);
