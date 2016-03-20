@@ -88,7 +88,10 @@ public class Main {
 			int rowNum = 1;
 			for (List<String> derivedRow : derivedRows) {
 //				writer.append("    " + strComm("Derived line (" + rowNum + "/" + derivedRows.size() + "): " + derivedRow.toString()) + "\n");
-				for (int modelRowIndex = 27; modelRowIndex < 52; modelRowIndex++) {
+				
+				// Loop que percorre as linhas de owl-elements2. Primeira linha tem índice 0.
+				
+				for (int modelRowIndex = 27; modelRowIndex < 111; modelRowIndex++) {
 					List<String> modelRow = rowToList(modelsSheet.getRow(modelRowIndex));
 					writer.append(expandData(columnsJoinText(modelRow), derivedRow));
 				}
@@ -146,13 +149,20 @@ public class Main {
 		for (String column : columnMap.keySet()) {
 			String columnKey = formatColumnKey(column);
 			if (elementText.contains(columnKey)) {
-				elementText = elementText.replace(columnKey, strNormalizedName(dataRow.get(columnMap.get(column))));
+				String columnValue = dataRow.get(columnMap.get(column));
+				if (columnValue == null || columnValue.trim().isEmpty()) {
+					elementText = "";
+				} else {
+					elementText = elementText.replace(columnKey, strNormalizedName(columnValue));
+				}
 			}
 		}
-		for (String predefinedColumn : predefinedColumnMap.keySet()) {
-			String predefinedColumnKey = formatColumnKey(predefinedColumn);
-			if (elementText.contains(predefinedColumnKey)) {
-				elementText = elementText.replace(predefinedColumnKey, strNormalizedName(predefinedColumnMap.get(predefinedColumn)));
+		if (!elementText.trim().isEmpty()) {
+			for (String predefinedColumn : predefinedColumnMap.keySet()) {
+				String predefinedColumnKey = formatColumnKey(predefinedColumn);
+				if (elementText.contains(predefinedColumnKey)) {
+					elementText = elementText.replace(predefinedColumnKey, strNormalizedName(predefinedColumnMap.get(predefinedColumn)));
+				}
 			}
 		}
 
