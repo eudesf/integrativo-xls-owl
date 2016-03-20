@@ -89,9 +89,9 @@ public class Main {
 			for (List<String> derivedRow : derivedRows) {
 //				writer.append("    " + strComm("Derived line (" + rowNum + "/" + derivedRows.size() + "): " + derivedRow.toString()) + "\n");
 				
-				// Loop que percorre as linhas de owl-elements2
+				// Loop que percorre as linhas de owl-elements2. Primeira linha tem índice 0.
 				
-				for (int modelRowIndex = 27; modelRowIndex < 110; modelRowIndex++) {
+				for (int modelRowIndex = 27; modelRowIndex < 111; modelRowIndex++) {
 					List<String> modelRow = rowToList(modelsSheet.getRow(modelRowIndex));
 					writer.append(expandData(columnsJoinText(modelRow), derivedRow));
 				}
