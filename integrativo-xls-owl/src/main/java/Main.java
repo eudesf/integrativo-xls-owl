@@ -55,7 +55,7 @@ public class Main {
 		
 		long initialTimeMillis = System.currentTimeMillis();
 		
-		BufferedWriter writer = new BufferedWriter(new FileWriter(OUTPUT_FILE), 1024*1024*100);
+		BufferedWriter writer = new BufferedWriter(new FileWriter(OUTPUT_FILE), 2048*2048*200);
 		new Main().convert(file, writer);
 		writer.close();
 		
@@ -69,7 +69,7 @@ public class Main {
 		Workbook wb = new XSSFWorkbook(in);
 		
 		Sheet modelsSheet = wb.getSheet("owl-elements2");
-		for (int modelRowIndex = 1; modelRowIndex < 27; modelRowIndex++) {
+		for (int modelRowIndex = 1; modelRowIndex < 28; modelRowIndex++) {
 			Row modelRow = modelsSheet.getRow(modelRowIndex);
 			writer.append(columnsJoinText(rowToList(modelRow)));
 		}
@@ -91,7 +91,7 @@ public class Main {
 				
 				// Loop que percorre as linhas de owl-elements2. Primeira linha tem índice 0.
 				
-				for (int modelRowIndex = 27; modelRowIndex < 111; modelRowIndex++) {
+				for (int modelRowIndex = 28; modelRowIndex < 127; modelRowIndex++) {
 					List<String> modelRow = rowToList(modelsSheet.getRow(modelRowIndex));
 					writer.append(expandData(columnsJoinText(modelRow), derivedRow));
 				}
