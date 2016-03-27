@@ -21,7 +21,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class Main {
 
-	private static String OUTPUT_FILE = "output2.owl"; 
+	private static String OUTPUT_FILE = "output.owl"; 
 	private static final List<Integer> COMB_COLUMNS;
 	private static Map<String, Integer> columnMap = new HashMap<>();
 	private static Map<String, String> predefinedColumnMap = new HashMap<>();
@@ -60,7 +60,7 @@ public class Main {
 		new Main().convert(file, writer);
 		writer.close();
 		
-		System.out.println("\n\n* Finished *\nSee output2.owl\nTime elapsed: " + 
+		System.out.println("\n\n* Finished *\nSee output.owl\nTime elapsed: " + 
 				((System.currentTimeMillis() - initialTimeMillis) / 1000.0 ) + "s" );
 	}
 
