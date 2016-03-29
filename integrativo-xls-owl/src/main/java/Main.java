@@ -38,7 +38,8 @@ public class Main {
 		columnMap.put("MolFunc", 6);
 		columnMap.put("CellComponent", 7);
 		columnMap.put("Comp", 7);
-		columnMap.put("Phenotype", 12);
+//   	columnMap.put("Phenotype", 12);
+		columnMap.put("Situation", 12);
 		predefinedColumnMap.put("Molecule", "Homocysteine");
 	}
 	
@@ -55,7 +56,7 @@ public class Main {
 		
 		long initialTimeMillis = System.currentTimeMillis();
 		
-		BufferedWriter writer = new BufferedWriter(new FileWriter(OUTPUT_FILE), 2048*2048*200);
+		BufferedWriter writer = new BufferedWriter(new FileWriter(OUTPUT_FILE), 1024*1024*100);
 		new Main().convert(file, writer);
 		writer.close();
 		
@@ -69,7 +70,7 @@ public class Main {
 		Workbook wb = new XSSFWorkbook(in);
 		
 		Sheet modelsSheet = wb.getSheet("owl-elements2");
-		for (int modelRowIndex = 1; modelRowIndex < 28; modelRowIndex++) {
+		for (int modelRowIndex = 1; modelRowIndex < 29; modelRowIndex++) {
 			Row modelRow = modelsSheet.getRow(modelRowIndex);
 			writer.append(columnsJoinText(rowToList(modelRow)));
 		}
@@ -91,7 +92,7 @@ public class Main {
 				
 				// Loop que percorre as linhas de owl-elements2. Primeira linha tem índice 0.
 				
-				for (int modelRowIndex = 28; modelRowIndex < 127; modelRowIndex++) {
+				for (int modelRowIndex = 29; modelRowIndex < 107; modelRowIndex++) {
 					List<String> modelRow = rowToList(modelsSheet.getRow(modelRowIndex));
 					writer.append(expandData(columnsJoinText(modelRow), derivedRow));
 				}
