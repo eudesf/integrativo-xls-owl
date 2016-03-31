@@ -1,0 +1,90 @@
+NEW QUERIES
+EXPRESSIVITY: DL EL++
+MODEL WITHOUT IMPORTS
+
+AXIOM COUNT: 16878
+CLASS COUNT: 3209
+RELATIONS: 46
+SUBCLASS AXIOMS: 2490
+EQUIVALENT CLASSES AXIOMS: 2225
+HIDDEN GCI: 330 
+
+REASONING TIME
+FACT++: 202,7399s
+HERMIT: 
+______________________________________________________________________
+THESE QUERIES CANNOT BE ANSWERED WITH THE NEW SUBCLASSES ONLY MODEL.
+
+BELOW, NEW QUERIES FOR THE SAME DOMAIN.
+
+
+CQ1': Which biological processes have proteins of the kind \textit{Prot$_1$} as participants?
+
+DL QUERY: (Functioning)
+biological_process and (hasParticipant some Methionine_synthase)
+
+
+RESULT:
+cellular_nitrogen_compound_metabolic_process__GO_0034641__in_Homo_sapiens__Human__with_Methionine_synthase
+methionine_biosynthetic_process__GO_0009086__in_Mus_musculus__Mouse__with_Methionine_synthase
+methylation__GO_0032259__in_Homo_sapiens__Human__with_Methionine_synthase
+nervous_system_development__GO_0007399__in_Homo_sapiens__Human__with_Methionine_synthase
+pteridine_containing_compound_metabolic_process__GO_0042558__in_Bos_taurus__Bovine__with_Methionine_synthase
+pteridine_containing_compound_metabolic_process__GO_0042558__in_Homo_sapiens__Human__with_Methionine_synthase
+pteridine_containing_compound_metabolic_process__GO_0042558__in_Mus_musculus__Mouse__with_Methionine_synthase
+small_molecule_metabolic_process__GO_0044281__in_Homo_sapiens__Human__with_Methionine_synthase
+
+SECOND QUERY RESULT (remove equal classes):
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+CQ2 --  In which cellular locations is \textit{Prot$_1$} active in organisms of the type  \textit{Org$_1$}? \\ 
+
+DL QUERY: (Funcioning - there is only one class that meets this query)
+cellular_component and ('is part of' some 'Loxodonta africana') and (includes some 'cystathionine beta-synthase')
+
+RESULT:
+cytoplasm__GO_0005737__in_Loxodonta_africana__African_elephant__with_Cystathionine_beta_synthase__EC_4_2_1_22_
+
+2ND QUERY: 
+cytoplasm__GO_0005737_
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+CQ3 --  Which proteins are involved in processes of the type \textit{BProc$_i1$} in organisms of the type \textit{Org$_i1$}? \\
+
+DL QUERY:
+protein and ('is participant in' some methylation) and ('is included in' some 'Homo sapiens') \\
+
+Betaine__homocysteine_S_methyltransferase_1__EC_2_1_1_5__in_Homo_sapiens__Human__in_protein_methylation__GO_0006479_
+Methionine_synthase_in_Homo_sapiens__Human__in_methylation__GO_0032259_
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+CQ4 -- Which biological processes that have a protein of the type X in organism A also takes place in an organism of type B?
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+CQ5 --  Which situations have as participants proteins that can be found in a specific site during a biological process of type X?
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+CQ6 -- Which are the organisms that includes a protein of type X and are also found in situations of type Y?
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+CQ7 -- Which proteins participate in sulfur-based catabolic processes?
+
+Protein and (isIncludedIn some 'sulfur-based catabolic process')
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+CQ8 -- Which are the molecular functions performed by proteins of the type 'betaine homocysteine metil transferase 1' in organisms of the type Xenopus tropicalis?
+
+Molecular function and (hasParticipant some 'betaine homocysteine metil transferase 1') and isIncludedIn some 'Xenopus tropicalis'
+
+CQ9 -- Some consistency checking
+
+CQ10 -- Some consistency checking
