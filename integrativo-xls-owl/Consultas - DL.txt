@@ -63,28 +63,79 @@ Methionine_synthase_in_Homo_sapiens__Human__in_methylation__GO_0032259_
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+CQ4 -- Which are the organisms that includes a protein of type X and are also found in situations of type Y?
 
-CQ4 -- Which biological processes that have a protein of the type X in organism A also takes place in an organism of type B?
+'cellular organism' and ('has part' some ('methylenetetrahydrofolate reductase' and ('is participant in' some 'folic acid metabolic process')))
+
+Result:
+Homo_sapiens__Human__with_Methylenetetrahydrofolate_reductase__EC_1_5_1_20__and_folic_acid_metabolic_process__GO_0046655_
+
+Second query:
+'Homo sapiens'
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-CQ5 --  Which situations have as participants proteins that can be found in a specific site during a biological process of type X?
+CQ5 -- Which proteins participate in a reproductive processes?
+The aim behind this query is to enable the retrieval for only the classes enlisted as participant of a given process.
+It may look like unespecific due to the huge amout of results it may have, however as we look for their superclasses, this set is going
+to be reduced easily. Additionally, this query requires the usage of taxonomical reasoning (subsumption) in order to retrieve the results.
+The class 'sulfur amino acid metabolic' is not directly asserted as participant of this specific process. However, subclasses (deeper in hierarchy)
+includes the axioms regarding 
+
+Query: protein and ('is participant in' some 'reproductive process')
+
+Result 1: 
+Cystathionine_beta_synthase__EC_4_2_1_22__in_Ailuropoda_melanoleuca__Giant_panda__in_maternal_process_involved_in_female_pregnancy__GO_0060135_
+Cystathionine_beta_synthase__EC_4_2_1_22__in_Bos_taurus__Bovine__in_maternal_process_involved_in_female_pregnancy__GO_0060135_
+Cystathionine_beta_synthase__EC_4_2_1_22__in_Callithrix_jacchus__White_tufted_ear_marmoset__in_maternal_process_involved_in_female_pregnancy__GO_0060135_
+Cystathionine_beta_synthase__EC_4_2_1_22__in_Loxodonta_africana__African_elephant__in_maternal_process_involved_in_female_pregnancy__GO_0060135_
+Cystathionine_beta_synthase__EC_4_2_1_22__in_Mus_musculus__Mouse__in_maternal_process_involved_in_female_pregnancy__GO_0060135_
+Cystathionine_beta_synthase__EC_4_2_1_22__in_Mustela_putorius_furo__European_domestic_ferret___Mustela_furo__in_maternal_process_involved_in_female_pregnancy__GO_0060135_
+Cystathionine_beta_synthase__EC_4_2_1_22__in_Oryctolagus_cuniculus__Rabbit__in_maternal_process_involved_in_female_pregnancy__GO_0060135_
+Cystathionine_beta_synthase__EC_4_2_1_22__in_Pan_troglodytes__Chimpanzee__in_maternal_process_involved_in_female_pregnancy__GO_0060135_
+Cystathionine_beta_synthase__EC_4_2_1_22__in_Rattus_norvegicus__Rat__in_maternal_process_involved_in_female_pregnancy__GO_0060135_
+Cystathionine_beta_synthase__EC_4_2_1_22__in_Sarcophilus_harrisii__Tasmanian_devil___Sarcophilus_laniarius__in_maternal_process_involved_in_female_pregnancy__GO_0060135_
+
+2nd result:
+'cystathionine beta-synthase'
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-CQ6 -- Which are the organisms that includes a protein of type X and are also found in situations of type Y?
+CQ6 -- Which are the molecular functions performed by proteins of the type 'betaine homocysteine metil transferase 1' in organisms of the type Xenopus tropicalis?
 
+molecular_function and ('has participant' some 'betaine--homocysteine S-methyltransferase 1') and ('is included in' some 'Xenopus tropicalis')
+
+Result:
+betaine_homocysteine_S_methyltransferase_activity__GO_0047150__in_Xenopus_tropicalis__Western_clawed_frog___Silurana_tropicalis__with_Betaine__homocysteine_S_methyltransferase_1__EC_2_1_1_5_
+S_adenosylmethionine_homocysteine_S_methyltransferase_activity__GO_0008898__in_Xenopus_tropicalis__Western_clawed_frog___Silurana_tropicalis__with_Betaine__homocysteine_S_methyltransferase_1__EC_2_1_1_5_
+zinc_ion_binding__GO_0008270__in_Xenopus_tropicalis__Western_clawed_frog___Silurana_tropicalis__with_Betaine__homocysteine_S_methyltransferase_1__EC_2_1_1_5_
+
+2nd Query:
+'betaine-homocysteine S-methyltransferase activity'
+'S-adenosylmethionine-homocysteine S-methyltransferase activity'
+'zinc ion binding'
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-CQ7 -- Which proteins participate in sulfur-based catabolic processes?
+CQ7 -- Which are the situations related to 'cysthationine beta-synthase' in hominidae?
 
-Protein and (isIncludedIn some 'sulfur-based catabolic process')
+situation and ('is included in' some (Hominidae and ('has part' some 'cystathionine beta-synthase')))
+
+Result: 
+Cystathionine_beta_synthase_deficiency_in_Homo_sapiens__Human__with_Cystathionine_beta_synthase__EC_4_2_1_22__Dysfunctional
+Homocystinuria_in_Homo_sapiens__Human__with_Cystathionine_beta_synthase__EC_4_2_1_22__Dysfunctional
+
+Second Query:
+Cystathionine_beta_synthase_deficiency
+Homocystinuria
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-CQ8 -- Which are the molecular functions performed by proteins of the type 'betaine homocysteine metil transferase 1' in organisms of the type Xenopus tropicalis?
+CQ8 -- Are there molecular functions exhibited by protein of type 'cysthationine beta-synthase', which are considered dysfunctional?
 
-Molecular function and (hasParticipant some 'betaine homocysteine metil transferase 1') and isIncludedIn some 'Xenopus tropicalis'
+This query aims at identifying (consistency checking) if a given molecular function is performed by a dysfunctional protein. Considering data does not ensure this type of relation, and that molecular functions available in GO are only canonical ativities from molecules, this kind of statement is not possible.
 
-CQ9 -- Some consistency checking
+Considering that, below we present the query:
+molecular_function and ('has participant' some ('cystathionine beta-synthase' and ('is bearer of' some Dysfunctional)))
 
-CQ10 -- Some consistency checking
+Which returns no subclasses of molecular_function. This show that the ontology is restricted enough in order to disallow the representation of undesired statements.
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
