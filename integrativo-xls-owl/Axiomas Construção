@@ -1,0 +1,176 @@
+Abaixo estão listados todos os modelos de axiomas que devem ser criados.
+A consulta ao banco pelo gryphon deverá retornar todos os componentes dos axiomas abaixo.
+Por exemplo, no axioma 1, deve ser retornadas todas as associações Bp+O+P encontradas no banco
+e convertidas em axiomas iguais aos que estão listados abaixo. Entretanto, só é considerado consulta 
+tudo o que aparece depois do equivalentTo. 
+
+A classe com os "underline" são as novas classes que deverão ser geradas a partir das combinações derivadas
+por similaridade. Se o axioma 1 tem 3 componentes (Bp, O e P), haverá similaridade para ser calculada para Bp, O e P.
+Pegaremos a combinação que tem a similaridade mais alta (o resultado com maior similaridade) para gerar a classe e o axioma.
+Como o termo da ontologia tem label igual ao que é recuperado do BD, a similaridade terá que ser a mais alta. Entretanto, nunca será 1
+porque os registros tem uma pequena string depois do nome da classe para descrever o ID da ontologia.
+
+Dá para perceber que esses axiomas estão em sequência de criação. Apenas o axioma que apresenta "dysfunctional" que não teremos como tratar, pois
+não existe no banco. Foi a única coisa que eu não consegui reduzir para evitar problemas.
+
+
+Abaixo os axiomas.
+
+________________________________________________________
+
+Axioma 1: Bp_O_P
+
+biological_process + organism + protein
+
+Bp_O_P equivalentTo Bp and
+	('has participant' some P) and
+	('is included in' some O)
+
+
+________________________________________________________
+
+
+Axioma 2: P_O
+
+protein + organism
+
+P_O equivalentTo P and
+	('is included in' some O)
+
+________________________________________________________
+
+Axioma 3: P_O_C
+
+protein + organism + cellular component
+
+P_O_C equivalentTo P_O and
+	('is included in' some C)
+
+________________________________________________________
+
+Axioma 4: P_O_M
+
+protein + organism + molecule
+
+P_O_M equivalentTo P_O and
+	('is participant in' some (process and
+		('has participant' some M)))
+
+________________________________________________________
+
+Axioma 5: P_Dysfunctional
+
+protein + dysfunctional
+
+P_dysfunctional equivalentTo P and
+	('is bearer of' some Dysfunctional)
+
+(não sei se terá como resolver essa consulta sem criar uma tabela artificial em que todos os registros contém "dysfunctional" como parte.
+Isso pode ser um problema para tratar em trabalhos futuros  :P 
+
+Uma solução imediata é retirar o disfunctional e passar as classes diretamente.
+________________________________________________________
+
+Axioma 6: P_Dysfunctional_O_Ph
+
+protein + dysfunctional + organism + situation (Ph)
+
+P_Dysfunctional_O_Ph equivalentTo P_dysfunctional and
+	('is part of' some (O and
+		(includes some Ph)))
+
+
+________________________________________________________
+
+Axioma 7: M_O
+
+molecule + organism
+
+M_O equivalentTo M and
+	('is part of' some O)
+
+
+________________________________________________________
+
+Axioma 8: M_O_P
+
+M + O + P
+
+M_O_P equivalentTo M_O and
+	('is participant in' some (process and
+		('has participant' some P)))
+
+
+________________________________________________________
+
+Axioma 9: O_P
+
+O + P
+
+O_P equivalentTo O and
+	('has part' some P)
+
+________________________________________________________
+
+Axioma 10: O_P_Bp
+
+O + P + Bp
+
+O_P_Bp equivalentTo O and
+	('has part' some (P and 
+		('is participant in' some Bp)))
+________________________________________________________
+
+Axioma 10: O_P_Mf
+
+O + P + Mf
+
+O_P_Mf equivalentTo O and
+	('has part' some (P and 
+		('is participant in' some Mf)))
+________________________________________________________
+
+Axioma 10: O_P_M
+
+O + P + M
+
+O_P_M equivalentTo O and
+	('has part' some (P and 
+		('is participant in' some (process and
+			('has participant' some M)))))
+________________________________________________________
+
+Axioma 11: O_P_Dysfunctional
+
+O_P_dysfunctional equivalentTo O and
+	('has part' some P_dysfunctional)
+
+________________________________________________________
+
+Axioma 12: O_C
+
+O + C
+
+O_C equivalentTo O and
+	('has part' some C)
+
+________________________________________________________
+
+Axioma 13: Mf_O_P
+
+Mf + O + P
+
+Mf_O_P equivalentTo Mf and
+	('has participant' some P) and
+	('is included in' some O)
+________________________________________________________
+
+Axioma 14: Ph_O_P_Dysfunctional
+
+Ph + O + P + Dysfunctional
+
+Ph_O_P_Dysfunctional equivalentTo Ph and
+	('is included in' some O_P_Dysfunctional)
+
+O_P_Dysfunctional foi descrito mais acima.
+________________________________________________________
